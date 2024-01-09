@@ -1,6 +1,14 @@
 Product Controller  
-    -	Add Product
-    -	Get Product
-    -   Get One Product
-    -	Filter Product
+    -	Add Product - DONE
+    -	Get Product - DONE
+    -   Get One Product - DONE 
+    -	Filter Product - DONE
+    
     -	Rate Product
+    -	Add items to Cart
+    -	Get items of Cart
+    -	Remove items from Cart
+
+User Controller  
+    -	SignIn - EMail, Name, Password, TypeOfUser(customer, seller)
+    -	SignUp - (EMail, Password) 
