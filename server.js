@@ -3,6 +3,7 @@ import ProductRouter from "./src/features/product/product.routes.js";
 import bodyParser from "body-parser";
 import UserRouter from "./src/features/user/user.routes.js";
 import basicAuthorizer from "./src/middlewares/basicAuth.middleware.js";
+import jwtAuth from "./src/middlewares/jwt.middleware.js";
 
 const server = express();
 // server.use((req, res, next) => {
@@ -18,7 +19,7 @@ server.use("/api/users", UserRouter);
 
 //for all requests realted to product, redirect to product rotue
 //localhost:3400/api/product
-server.use("/api/products", basicAuthorizer, ProductRouter);
+server.use("/api/products", jwtAuth, ProductRouter);
 
 //Defualt request handler
 server.get("/", (req, res) => {
