@@ -2,7 +2,7 @@ import express from "express";
 import ProductRouter from "./src/features/product/product.routes.js";
 import bodyParser from "body-parser";
 import UserRouter from "./src/features/user/user.routes.js";
-import basicAuthorizer from "./src/middlewares/basicAuth.middleware.js";
+//import basicAuthorizer from "./src/middlewares/basicAuth.middleware.js";
 import jwtAuth from "./src/middlewares/jwt.middleware.js";
 
 const server = express();

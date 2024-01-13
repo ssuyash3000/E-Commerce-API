@@ -14,6 +14,7 @@ const ProductRouter = express.Router();
 // Hence, here we will specify path to controller
 // always that after the /api/product
 const productController = new ProductController();
+ProductRouter.post("/rate", productController.rateProduct);
 ProductRouter.get("/", productController.getAllProducts);
 ProductRouter.post(
   "/",

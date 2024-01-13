@@ -10,5 +10,6 @@ Product Controller
     -	Remove items from Cart
 
 User Controller  
-    -	SignIn - EMail, Name, Password, TypeOfUser(customer, seller)
-    -	SignUp - (EMail, Password) 
+    -	SignUp - EMail, Name, Password,  
+           TypeOfUser(customer, seller)  - DONE
+    -	SignIn - (EMail, Password) - DONE

@@ -29,6 +29,13 @@ export class UserModel {
 //Creating List of Dummy Users
 var users = [
   {
+    id: 2,
+    name: "Customer User",
+    email: "customer@com.com",
+    password: "Password1",
+    type: "customer",
+  },
+  {
     id: 1,
     name: "Seller User",
     email: "seller@com.com",
