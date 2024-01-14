@@ -17,6 +17,7 @@ const jwtAuth = (req, res, next) => {
   // token. Hence it is a good idea to use try catch
   try {
     const payload = jwt.verify(token, "D4FFE83A3C1B4F69");
+    req.userId = payload.userId;
   } catch (err) {
     // 5. Else return error
     return res.status(401).send("Unauthorized/Invalid / Expired");

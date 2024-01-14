@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import UserRouter from "./src/features/user/user.routes.js";
 //import basicAuthorizer from "./src/middlewares/basicAuth.middleware.js";
 import jwtAuth from "./src/middlewares/jwt.middleware.js";
+import CartRouter from "./src/features/cart/cart.route.js";
 
 const server = express();
 // server.use((req, res, next) => {
@@ -15,6 +16,9 @@ const server = express();
 server.use(bodyParser.json());
 // for parsing if data is sent in form-data format
 // server.use(express.urlencoded({ extended: true }));
+
+server.use("/api/cart", jwtAuth, CartRouter);
+
 server.use("/api/users", UserRouter);
 
 //for all requests realted to product, redirect to product rotue

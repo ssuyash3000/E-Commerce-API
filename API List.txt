@@ -4,10 +4,10 @@ Product Controller
     -   Get One Product - DONE 
     -	Filter Product - DONE
     
-    -	Rate Product
-    -	Add items to Cart
-    -	Get items of Cart
-    -	Remove items from Cart
+    -	Rate Product     - DONE
+    -	Add items to Cart - DONE
+    -	Get items of Cart - DONE
+    -	Remove items from Cart - DONE
 
 User Controller  
     -	SignUp - EMail, Name, Password,  
