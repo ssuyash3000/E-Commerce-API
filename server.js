@@ -1,4 +1,5 @@
 import express from "express";
+import swagger from "swagger-ui-express";
 import ProductRouter from "./src/features/product/product.routes.js";
 import bodyParser from "body-parser";
 import UserRouter from "./src/features/user/user.routes.js";
@@ -6,7 +7,11 @@ import UserRouter from "./src/features/user/user.routes.js";
 import jwtAuth from "./src/middlewares/jwt.middleware.js";
 import CartRouter from "./src/features/cart/cart.route.js";
 
+import apiDocs from "./swagger.json" assert { type: "json" };
 const server = express();
+
+server.use("/api-docs", swagger.serve, swagger.setup(apiDocs));
+
 // server.use((req, res, next) => {
 //   console.log(req.url);
 //   console.log("req header", req.headers);
