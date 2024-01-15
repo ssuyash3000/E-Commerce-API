@@ -35,6 +35,12 @@ server.get("/", (req, res) => {
   res.send("Welcome to this project");
 });
 
+server.use((req, res) => {
+  res
+    .status(404)
+    .send("API not found, refer to /api-docs for API documentation");
+});
+
 server.listen(port, () => {
   console.log(`Server has started at port ${port}`);
 });
