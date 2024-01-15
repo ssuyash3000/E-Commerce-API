@@ -1,5 +1,6 @@
 import express from "express";
 import swagger from "swagger-ui-express";
+import cors from "cors";
 import ProductRouter from "./src/features/product/product.routes.js";
 import bodyParser from "body-parser";
 import UserRouter from "./src/features/user/user.routes.js";
@@ -11,15 +12,21 @@ import apiDocs from "./swagger.json" assert { type: "json" };
 const server = express();
 const port = process.env.PORT || 3400;
 
-server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "null");
-  res.header("Access-Control-Allow-Headers", "*");
-  res.header("Access-Control-Allow-Methods", "*");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
-});
+// Cors Policy Configurations
+const corsOptions = {
+  origin: "null",
+};
+server.use(cors(corsOptions));
+
+// server.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "null");
+//   res.header("Access-Control-Allow-Headers", "*");
+//   res.header("Access-Control-Allow-Methods", "*");
+//   if (req.method === "OPTIONS") {
+//     return res.sendStatus(200);
+//   }
+//   next();
+// });
 
 server.use("/api-docs", swagger.serve, swagger.setup(apiDocs));
 
