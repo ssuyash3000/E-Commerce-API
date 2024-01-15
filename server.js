@@ -9,7 +9,7 @@ import CartRouter from "./src/features/cart/cart.route.js";
 
 import apiDocs from "./swagger.json" assert { type: "json" };
 const server = express();
-
+const port = process.env.PORT || 3400;
 server.use("/api-docs", swagger.serve, swagger.setup(apiDocs));
 
 // server.use((req, res, next) => {
@@ -35,6 +35,6 @@ server.get("/", (req, res) => {
   res.send("Welcome to this project");
 });
 
-server.listen(3400, () => {
-  console.log("Server has started at port 3400");
+server.listen(port, () => {
+  console.log(`Server has started at port ${port}`);
 });
