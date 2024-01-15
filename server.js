@@ -10,6 +10,17 @@ import CartRouter from "./src/features/cart/cart.route.js";
 import apiDocs from "./swagger.json" assert { type: "json" };
 const server = express();
 const port = process.env.PORT || 3400;
+
+server.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "null");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Methods", "*");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 server.use("/api-docs", swagger.serve, swagger.setup(apiDocs));
 
 // server.use((req, res, next) => {
