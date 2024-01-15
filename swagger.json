@@ -1,16 +1,27 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
     "description": "API for E-commerce application",
     "title": "E-Commerce API"
   },
-  "host": "localhost:3400",
-  "securityDefinitions": {
-    "JWT": {
-      "in": "header",
-      "name": "Authorization",
-      "type": "apiKey"
+  "servers": [
+    {
+      "url": "http://localhost:3400",
+      "description": "For testing in local"
+    },
+    {
+      "url": "https://e-commerce-api-production.up.railway.app/",
+      "description": "For testing on hosted link"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey"
+      }
     }
   },
   "paths": {
@@ -19,24 +30,23 @@
         "tags": ["User"],
         "summary": "Login",
         "description": "User login to get token",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "User Credentials",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string"
-                },
-                "password": {
-                  "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
                 }
               }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK"
