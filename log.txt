@@ -1,6 +1,6 @@
-Tue Jan 16 2024 05:14:09 GMT+0530 (India Standard Time) 
-req.body = {"email":"customer@com.com","password":"Password1"}
-req.url = /api/users/signIn
- Tue Jan 16 2024 05:18:14 GMT+0530 (India Standard Time) 
-req.body = {"email":"customer@com.com","password":"Password1"}
-req.url = /signIn
+
+{"level":"info",
+"message":"\nThu Jan 18 2024 00:53:28 GMT+0530 (India Standard Time) 
+\nreq.body = {}
+\nreq.url = /api/products/",
+"service":"request-logging"}
