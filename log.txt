@@ -4,3 +4,4 @@
 \nreq.body = {}
 \nreq.url = /api/products/",
 "service":"request-logging"}
+{"level":"info","message":"\nThu Jan 18 2024 01:20:54 GMT+0530 (India Standard Time) \nreq.body = {}\nreq.url = /api/products/","service":"request-logging"}

@@ -42,6 +42,10 @@
                   "password": {
                     "type": "string"
                   }
+                },
+                "example": {
+                  "email": "customer@com.com",
+                  "password": "Password1"
                 }
               }
             }
