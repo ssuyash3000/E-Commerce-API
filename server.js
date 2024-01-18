@@ -10,10 +10,9 @@ import CartRouter from "./src/features/cart/cart.route.js";
 
 import apiDocs from "./swagger.json" assert { type: "json" };
 import loggerMiddleware from "./src/middlewares/logger.middleware.js";
+import { ApplicationError } from "./src/error-handler/applicationError.js";
 const server = express();
 const port = process.env.PORT || 3400;
-
-
 
 // Cors Policy Configurations
 const corsOptions = {
@@ -40,7 +39,7 @@ server.use("/api-docs", swagger.serve, swagger.setup(apiDocs));
 // });
 //for parsing if data is sent in raw-json format
 server.use(bodyParser.json());
-server.use(loggerMiddleware)
+server.use(loggerMiddleware);
 
 // for parsing if data is sent in form-data format
 // server.use(express.urlencoded({ extended: true }));
@@ -62,6 +61,14 @@ server.use((req, res) => {
   res
     .status(404)
     .send("API not found, refer to /api-docs for API documentation");
+});
+
+server.use((err, req, res, next) => {
+  if (err instanceof ApplicationError) {
+    return res.status(err.code).send(err.message);
+  }
+  console.log(err);
+  res.status(500).send("Something went wrong");
 });
 
 server.listen(port, () => {

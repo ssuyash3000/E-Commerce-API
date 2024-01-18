@@ -35,13 +35,24 @@ export default class ProductController {
     const prod = ProductModel.filter(minPrice, maxPrice, category);
     res.status(200).send(prod);
   }
-  rateProduct(req, res) {
-    const { userId, productId, rating } = req.query;
-    const error = ProductModel.rateProduct(userId, productId, rating);
-    if (error) {
-      res.status(400).send(error);
-    } else {
+  rateProduct(req, res, next) {
+    try {
+      const { userId, productId, rating } = req.query;
+      ProductModel.rateProduct(userId, productId, rating);
       res.status(200).send("Rating Added Successfully");
+    } catch (err) {
+      // in case we want to call the application level middleware from here
+      next(err);
     }
   }
+  //const error = ProductModel.rateProduct(userId, productId, rating);
+  // try {
+  // }catch (err) {
+  // res.status(400).send(err.message);
+  //}
+  // if (error) {
+  //   res.status(400).send(error);
+  // } else {
+  //   res.status(200).send("Rating Added Successfully");
+  // }
 }
