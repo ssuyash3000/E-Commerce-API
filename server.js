@@ -11,6 +11,7 @@ import CartRouter from "./src/features/cart/cart.route.js";
 import apiDocs from "./swagger.json" assert { type: "json" };
 import loggerMiddleware from "./src/middlewares/logger.middleware.js";
 import { ApplicationError } from "./src/error-handler/applicationError.js";
+import connectToMongoDB from "./src/config/mongodb.js";
 const server = express();
 const port = process.env.PORT || 3400;
 
@@ -73,4 +74,5 @@ server.use((err, req, res, next) => {
 
 server.listen(port, () => {
   console.log(`Server has started at port ${port}`);
+  connectToMongoDB();
 });

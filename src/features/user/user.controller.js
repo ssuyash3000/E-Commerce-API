@@ -22,10 +22,10 @@ export default class UserController {
     }
   }
 
-  signUp(req, res) {
+  async signUp(req, res) {
     const { name, email, password, type } = req.body;
     //console.log(req.body);
-    const user = UserModel.SignUp(name, email, password, type);
+    const user = await UserModel.SignUp(name, email, password, type);
     res.status(201).send(user);
   }
 }
