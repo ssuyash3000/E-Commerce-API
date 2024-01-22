@@ -1,11 +1,28 @@
 import { UserModel } from "./user.model.js";
 import jwt from "jsonwebtoken";
+import UserRepository from "./user.repository.js";
+import { ApplicationError } from "../../error-handler/applicationError.js";
 
 export default class UserController {
-  signIn(req, res) {
-    const { email, password } = req.body;
+  constructor() {
+    this.userRepsitory = new UserRepository();
+  }
+  async signUp(req, res) {
+    const { name, email, password, type } = req.body;
     //console.log(req.body);
-    const result = UserModel.SignIn(email, password);
+    const newUser = UserModel.SignUp(name, email, password, type);
+    await this.userRepsitory.SignUp(newUser);
+    res.status(201).send(newUser);
+  }
+  async signIn(req, res) {
+    const { email, password } = req.body;
+    let result = null;
+    try {
+      result = await this.userRepsitory.SignIn(email, password);
+    } catch (err) {
+      console.log(err);
+      throw new ApplicationError("Something wrong with database", 503);
+    }
     if (!result) {
       res.status(400).send("Incorrect Credential");
     } else {
@@ -20,12 +37,5 @@ export default class UserController {
       // 2. Send the token
       res.status(200).send(token);
     }
-  }
-
-  async signUp(req, res) {
-    const { name, email, password, type } = req.body;
-    //console.log(req.body);
-    const user = await UserModel.SignUp(name, email, password, type);
-    res.status(201).send(user);
   }
 }

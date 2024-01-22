@@ -1,5 +1,4 @@
-import { getDB } from "../../config/mongodb.js";
-import { ApplicationError } from "../../error-handler/applicationError.js";
+
 
 export class UserModel {
   constructor(name, email, password, type) {
@@ -10,11 +9,7 @@ export class UserModel {
     this.type = type;
   }
 
-  static async SignUp(name, email, password, type) {
-    // 1. Get the database
-    const db = getDB();
-    // 2. Get the collection
-    const collection = db.collection("users");
+  static SignUp(name, email, password, type) {
     const newUser = new UserModel(
       //users.length + 1,
       name,
@@ -22,22 +17,11 @@ export class UserModel {
       password,
       type
     );
-    // 3. Insert the user into the collection
-    try {
-      await collection.insertOne(newUser);
-    } catch (err) {
-      throw new ApplicationError("Something went wrong", 503);
-    }
-    //users.push(newUser);
     return newUser;
   }
-  static SignIn(email, password) {
-    const user = users.find((u) => u.email == email && u.password == password);
-    return user;
-  }
-  static getAlluser() {
-    return users;
-  }
+  // static getAlluser() {
+  //   return users;
+  // }
 }
 //Creating List of Dummy Users
 var users = [

@@ -10,7 +10,11 @@ const UserRouter = express.Router();
 // 3. Paths to all the type of controller
 
 const userController = new UserController();
-UserRouter.post("/signIn", userController.signIn);
-UserRouter.post("/signUp", userController.signUp);
+UserRouter.post("/signIn", (req, res, next) => {
+  userController.signIn(req, res);
+});
+UserRouter.post("/signUp", (req, res, next) => {
+  userController.signUp(req, res);
+});
 
 export default UserRouter;
