@@ -2,7 +2,7 @@ import { UserModel } from "./user.model.js";
 import jwt from "jsonwebtoken";
 import UserRepository from "./user.repository.js";
 import { ApplicationError } from "../../error-handler/applicationError.js";
-
+import bcrypt from "bcrypt";
 export default class UserController {
   constructor() {
     this.userRepsitory = new UserRepository();
@@ -10,32 +10,39 @@ export default class UserController {
   async signUp(req, res) {
     const { name, email, password, type } = req.body;
     //console.log(req.body);
-    const newUser = UserModel.SignUp(name, email, password, type);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = UserModel.SignUp(name, email, hashedPassword, type);
     await this.userRepsitory.SignUp(newUser);
+    delete newUser.password;
     res.status(201).send(newUser);
   }
   async signIn(req, res) {
     const { email, password } = req.body;
-    let result = null;
     try {
-      result = await this.userRepsitory.SignIn(email, password);
+      const user = await this.userRepsitory.findByEmail(email);
+      if (!user) {
+        return res.status(400).send("Incorrect Credential");
+      } else {
+        const result = await bcrypt.compare(password, user.password);
+        if (result) {
+          // 1. Create our token on successful login
+          const token = jwt.sign(
+            { userId: result.id, email: result.email },
+            "D4FFE83A3C1B4F69",
+            {
+              expiresIn: "1h",
+            }
+          );
+          // 2. Send the token
+          res.status(200).send(token);
+        }else{
+          res.status(400).send("Incorrect Credential");
+        }
+      }
+      //result = await this.userRepsitory.SignIn(email, password);
     } catch (err) {
       console.log(err);
       throw new ApplicationError("Something wrong with database", 503);
-    }
-    if (!result) {
-      res.status(400).send("Incorrect Credential");
-    } else {
-      // 1. Create our token on successful login
-      const token = jwt.sign(
-        { userId: result.id, email: result.email },
-        "D4FFE83A3C1B4F69",
-        {
-          expiresIn: "1h",
-        }
-      );
-      // 2. Send the token
-      res.status(200).send(token);
     }
   }
 }
