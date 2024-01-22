@@ -10,8 +10,8 @@ export default class UserController {
   async signUp(req, res, next) {
     const { name, email, password, type } = req.body;
     // 0. Checking if the user with the passed email already exsits
-    let user = this.userRepsitory.findByEmail(email);
     try {
+      let user = this.userRepsitory.findByEmail(email);
       if (user) {
         throw new ApplicationError("User already exists", 409);
       }
