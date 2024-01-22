@@ -11,7 +11,7 @@ export default class UserController {
     const { name, email, password, type } = req.body;
     // 0. Checking if the user with the passed email already exsits
     try {
-      let user = this.userRepsitory.findByEmail(email);
+      let user = await this.userRepsitory.findByEmail(email);
       if (user) {
         throw new ApplicationError("User already exists", 409);
       }
