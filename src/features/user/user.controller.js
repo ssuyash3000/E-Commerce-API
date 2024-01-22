@@ -7,14 +7,24 @@ export default class UserController {
   constructor() {
     this.userRepsitory = new UserRepository();
   }
-  async signUp(req, res) {
+  async signUp(req, res, next) {
     const { name, email, password, type } = req.body;
-    //console.log(req.body);
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = UserModel.SignUp(name, email, hashedPassword, type);
-    await this.userRepsitory.SignUp(newUser);
-    delete newUser.password;
-    res.status(201).send(newUser);
+    // 0. Checking if the user with the passed email already exsits
+    let user = this.userRepsitory.findByEmail(email);
+    try {
+      if (user) {
+        throw new ApplicationError("User already exists", 409);
+      }
+      //console.log(req.body);
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = UserModel.SignUp(name, email, hashedPassword, type);
+      await this.userRepsitory.SignUp(newUser);
+      delete newUser.password;
+      res.status(201).send(newUser);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
   }
   async signIn(req, res) {
     const { email, password } = req.body;
@@ -35,7 +45,7 @@ export default class UserController {
           );
           // 2. Send the token
           res.status(200).send(token);
-        }else{
+        } else {
           res.status(400).send("Incorrect Credential");
         }
       }

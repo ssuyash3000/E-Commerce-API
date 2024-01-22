@@ -14,7 +14,7 @@ UserRouter.post("/signIn", (req, res, next) => {
   userController.signIn(req, res);
 });
 UserRouter.post("/signUp", (req, res, next) => {
-  userController.signUp(req, res);
+  userController.signUp(req, res, next);
 });
 
 export default UserRouter;
