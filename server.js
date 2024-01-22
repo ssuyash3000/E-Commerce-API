@@ -1,3 +1,4 @@
+import "./env.js";
 import express from "express";
 import swagger from "swagger-ui-express";
 import cors from "cors";
@@ -20,7 +21,6 @@ const corsOptions = {
   origin: "null",
 };
 server.use(cors(corsOptions));
-
 // server.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "null");
 //   res.header("Access-Control-Allow-Headers", "*");

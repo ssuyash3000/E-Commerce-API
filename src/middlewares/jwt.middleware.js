@@ -16,7 +16,7 @@ const jwtAuth = (req, res, next) => {
   // Else it will throw an error in case of modified or expired
   // token. Hence it is a good idea to use try catch
   try {
-    const payload = jwt.verify(token, "D4FFE83A3C1B4F69");
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = payload.userId;
   } catch (err) {
     // 5. Else return error

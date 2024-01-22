@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-const url = "mongodb://127.0.0.1:27017/ecommdb";
+const url = process.env.DB_URL;
 let client = null;
 const connectToMongoDB = () => {
   MongoClient.connect(url)
@@ -11,7 +11,7 @@ const connectToMongoDB = () => {
       console.log(err);
     });
 };
-export const getDB = () =>{
+export const getDB = () => {
   return client.db();
-}
+};
 export default connectToMongoDB;
