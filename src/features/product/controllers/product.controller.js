@@ -1,26 +1,37 @@
 import ProductModel from "../product.model.js";
+import ProductRepository from "../product.repository.js";
 export default class ProductController {
-  getAllProducts(req, res) {
+  constructor() {
+    this.productRepository = new ProductRepository();
+  }
+  async getAllProducts(req, res, next) {
     //console.log("getAllProducts called");
-    const products = ProductModel.getAll();
-    res.status(200).send(products);
+    try {
+      const products = await this.productRepository.getAll();
+      res.status(200).send(products);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
   }
-  addProduct(req, res) {
+  async addProduct(req, res) {
     //console.log("addProduct called");
-    const { name, price, sizes } = req.body;
-    const newProduct = {
+    const { name, price, sizes, desc, category } = req.body;
+    const newProduct = new ProductModel(
       name,
-      price: parseFloat(price),
-      size: sizes.split(","),
-      imageUrl: req.file.filename,
-    };
-    const createdProd = ProductModel.add(newProduct);
-    res.status(201).send(createdProd);
+      desc,
+      parseFloat(price),
+      req.file.filename,
+      category,
+      sizes.split(",")
+    );
+    await this.productRepository.add(newProduct);
+    res.status(201).send(newProduct);
   }
-  getOneProduct(req, res) {
+  async getOneProduct(req, res) {
     //console.log("getOneProduct called");
     const id = req.params.id;
-    const prod = ProductModel.get(id);
+    const prod = await this.productRepository.get(id);
     if (!prod) {
       res.status(404).send("Product not found");
     } else {

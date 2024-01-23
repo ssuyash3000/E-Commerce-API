@@ -15,13 +15,19 @@ const ProductRouter = express.Router();
 // always that after the /api/product
 const productController = new ProductController();
 ProductRouter.post("/rate", productController.rateProduct);
-ProductRouter.get("/", productController.getAllProducts);
+ProductRouter.get("/", (req, res, next)=>{
+  productController.getAllProducts(req, res, next);
+});
 ProductRouter.post(
   "/",
   uploadMiddleware.single("imageUrl"),
-  productController.addProduct
+  (req, res, next) => {
+    productController.addProduct(req, res, next);
+  }
 );
 ProductRouter.get("/filter", productController.filterProducts);
-ProductRouter.get("/:id", productController.getOneProduct);
+ProductRouter.get("/:id", (req, res, next) => {
+  productController.getOneProduct(req, res, next);
+});
 //ProductRouter.get("/filter", productController.filterProducts);
 export default ProductRouter;

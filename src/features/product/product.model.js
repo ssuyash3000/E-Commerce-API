@@ -2,8 +2,8 @@ import { ApplicationError } from "../../error-handler/applicationError.js";
 import { UserModel } from "../user/user.model.js";
 
 export default class ProductModel {
-  constructor(id, name, desc, price, imageUrl, category, size) {
-    this.id = id;
+  constructor(name, desc, price, imageUrl, category, size) {
+    //this.id = id;
     this.name = name;
     this.desc = desc;
     this.price = price;
@@ -11,21 +11,21 @@ export default class ProductModel {
     this.category = category;
     this.size = size; // will only apply to cloth category
   }
-  static getAll() {
-    return products;
-  }
-  static add(newProd) {
-    let prod = {
-      id: products.length + 1,
-      ...newProd,
-    };
-    products.push(prod);
-    return prod;
-  }
-  static get(id) {
-    const prod = products.find((i) => i.id == id);
-    return prod;
-  }
+  // static getAll() {
+  //   return products;
+  // }
+  // static add(newProd) {
+  //   let prod = {
+  //     //id: products.length + 1,
+  //     ...newProd,
+  //   };
+  //   //products.push(prod);
+  //   return prod;
+  // }
+  // static get(id) {
+  //   const prod = products.find((i) => i.id == id);
+  //   return prod;
+  // }
   static filter(minPrice, maxPrice, category) {
     const prod = products.filter((currProd) => {
       return (
