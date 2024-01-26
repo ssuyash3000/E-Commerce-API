@@ -39,5 +39,45 @@ class ProductRepository {
       throw new ApplicationError("Something went wrong", 503);
     }
   }
+  async filter(minPrice, maxPrice, category) {
+    try {
+      const db = getDB();
+      const collection = db.collection(this.collection);
+      const filterExpression = {};
+      if (minPrice) {
+        filterExpression.price = { $gte: parseFloat(minPrice) };
+      }
+      if (maxPrice) {
+        filterExpression.price = {
+          ...filterExpression.price,
+          $lte: parseFloat(maxPrice),
+        };
+      }
+      if (category) {
+        filterExpression.category = category;
+      }
+      return collection.find(filterExpression).toArray();
+    } catch (err) {
+      console.log(err);
+      throw ApplicationError("Something went wrong", 503);
+    }
+  }
+  async rate(userId, productId, rating) {
+    try {
+      const db = getDB();
+      const collection = db.collection(this.collection);
+      collection.updateOne(
+        {
+          _id: new ObjectId(productId),
+        },
+        {
+          $push: { ratings: { userId: new ObjectId(userId), rating } },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      throw new ApplicationError("Something went wrong", 503);
+    }
+  }
 }
 export default ProductRepository;

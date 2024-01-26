@@ -18,6 +18,8 @@ const jwtAuth = (req, res, next) => {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = payload.userId;
+    // console.log(process.env.JWT_SECRET);
+    // console.log(payload);
   } catch (err) {
     // 5. Else return error
     return res.status(401).send("Unauthorized/Invalid / Expired");

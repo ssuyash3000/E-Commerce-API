@@ -35,9 +35,10 @@ export default class UserController {
       } else {
         const result = await bcrypt.compare(password, user.password);
         if (result) {
+          //console.log("from user controller ", user._id.toString());
           // 1. Create our token on successful login
           const token = jwt.sign(
-            { userId: result.id, email: result.email },
+            JSON.stringify({ userId: user._id.toString(), email: user.email }),
             process.env.JWT_SECRET,
             {
               expiresIn: "1h",

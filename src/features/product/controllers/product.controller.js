@@ -30,26 +30,41 @@ export default class ProductController {
   }
   async getOneProduct(req, res) {
     //console.log("getOneProduct called");
-    const id = req.params.id;
-    const prod = await this.productRepository.get(id);
-    if (!prod) {
-      res.status(404).send("Product not found");
-    } else {
-      res.status(200).send(prod);
+    try {
+      const id = req.params.id;
+      const prod = await this.productRepository.get(id);
+      if (!prod) {
+        res.status(404).send("Product not found");
+      } else {
+        res.status(200).send(prod);
+      }
+    } catch (err) {
+      console.log(err);
+      next(err);
     }
   }
-  filterProducts(req, res) {
-    console.log("filterProducts called");
-    const minPrice = req.query.minPrice;
-    const maxPrice = req.query.maxPrice;
-    const category = req.query.category;
-    const prod = ProductModel.filter(minPrice, maxPrice, category);
-    res.status(200).send(prod);
-  }
-  rateProduct(req, res, next) {
+  async filterProducts(req, res, next) {
     try {
-      const { userId, productId, rating } = req.query;
-      ProductModel.rateProduct(userId, productId, rating);
+      //console.log("filterProducts called");
+      const minPrice = req.query.minPrice;
+      const maxPrice = req.query.maxPrice;
+      const category = req.query.category;
+      //const prod = ProductModel.filter(minPrice, maxPrice, category);
+      const prod = await this.productRepository.filter(
+        minPrice,
+        maxPrice,
+        category
+      );
+      return res.status(200).send(prod);
+    } catch (err) {
+      next(err);
+    }
+  }
+  async rateProduct(req, res, next) {
+    try {
+      const { productId, rating } = req.query;
+      const userId = req.userId;
+      await this.productRepository.rate(userId, productId, rating);
       res.status(200).send("Rating Added Successfully");
     } catch (err) {
       // in case we want to call the application level middleware from here

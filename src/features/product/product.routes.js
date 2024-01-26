@@ -14,8 +14,10 @@ const ProductRouter = express.Router();
 // Hence, here we will specify path to controller
 // always that after the /api/product
 const productController = new ProductController();
-ProductRouter.post("/rate", productController.rateProduct);
-ProductRouter.get("/", (req, res, next)=>{
+ProductRouter.post("/rate", (req, res, next) => {
+  productController.rateProduct(req, res, next);
+});
+ProductRouter.get("/", (req, res, next) => {
   productController.getAllProducts(req, res, next);
 });
 ProductRouter.post(
@@ -25,7 +27,9 @@ ProductRouter.post(
     productController.addProduct(req, res, next);
   }
 );
-ProductRouter.get("/filter", productController.filterProducts);
+ProductRouter.get("/filter", (req, res, next) => {
+  productController.filterProducts(req, res, next);
+});
 ProductRouter.get("/:id", (req, res, next) => {
   productController.getOneProduct(req, res, next);
 });
