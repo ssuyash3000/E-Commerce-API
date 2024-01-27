@@ -9,10 +9,11 @@ class CartRepository {
     try {
       const db = getDB();
       const collection = db.collection(this.collection);
+      const id = await this.getNextCounter(db);
       let { productId, userId, quantity } = newProduct;
       await collection.updateOne(
         { productId, userId },
-        { $inc: { quantity: quantity } },
+        { $setOnInsert: { _id: id }, $inc: { quantity: quantity } },
         { upsert: true }
       );
     } catch (err) {
@@ -42,6 +43,17 @@ class CartRepository {
       console.log(err);
       throw new ApplicationError("Something went wrong in db", 503);
     }
+  }
+  async getNextCounter(db) {
+    const counter = await db
+      .collection("counters")
+      .findOneAndUpdate(
+        { _id: "cartItemId" },
+        { $inc: { value: 1 } },
+        { returnDocument: "after" }
+      );
+    //console.log(counter);
+    return counter.value;
   }
 }
 
