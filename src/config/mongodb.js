@@ -9,11 +9,23 @@ const createCounter = async (db) => {
     await db.collection("counters").insertOne({ _id: "cartItemId", value: 0 });
   }
 };
+
+const createIndexes = async (db) => {
+  try {
+    await db.collection("product").createIndex({ price: 1 });
+    await db.collection("product").createIndex({ name: 1, category: -1 });
+    await db.collection("product").createIndex({ desc: "text" });
+    console.log("Indexes are created");
+  } catch (err) {
+    console.log(err);
+  }
+};
 const connectToMongoDB = () => {
   MongoClient.connect(url)
     .then((clientInstance) => {
       client = clientInstance;
       createCounter(client.db());
+      createIndexes(client.db());
       console.log("MongoDB is connected");
     })
     .catch((err) => {
