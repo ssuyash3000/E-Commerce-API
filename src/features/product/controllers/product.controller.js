@@ -48,12 +48,13 @@ export default class ProductController {
       //console.log("filterProducts called");
       const minPrice = req.query.minPrice;
       const maxPrice = req.query.maxPrice;
-      const category = req.query.category;
+      let categories = req.query.categories;
+      categories = JSON.parse(categories.replace(/'/g, '"'));
       //const prod = ProductModel.filter(minPrice, maxPrice, category);
       const prod = await this.productRepository.filter(
         minPrice,
         maxPrice,
-        category
+        categories
       );
       return res.status(200).send(prod);
     } catch (err) {

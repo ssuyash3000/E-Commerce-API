@@ -39,11 +39,11 @@ class ProductRepository {
       throw new ApplicationError("Something went wrong", 503);
     }
   }
-  async filter(minPrice, maxPrice, category) {
+  async filter(minPrice, maxPrice, categories) {
     try {
       const db = getDB();
       const collection = db.collection(this.collection);
-      const filterExpression = {};
+      let filterExpression = {};
       if (minPrice) {
         filterExpression.price = { $gte: parseFloat(minPrice) };
       }
@@ -53,8 +53,10 @@ class ProductRepository {
           $lte: parseFloat(maxPrice),
         };
       }
-      if (category) {
-        filterExpression.category = category;
+      if (categories) {
+        filterExpression = {
+          $and: [{ category: { $in: categories } }, filterExpression],
+        };
       }
       return collection.find(filterExpression).toArray();
     } catch (err) {
