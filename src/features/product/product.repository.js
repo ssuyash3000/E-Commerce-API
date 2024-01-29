@@ -60,7 +60,7 @@ class ProductRepository {
       }
       return collection
         .find(filterExpression)
-        .project({ name: 1, price: 1, ratings: { $slice:2 } })
+        .project({ name: 1, price: 1, ratings: { $slice: 2 } })
         .toArray();
     } catch (err) {
       console.log(err);
@@ -117,6 +117,25 @@ class ProductRepository {
       //     }
       //   );
       // }
+    } catch (err) {
+      console.log(err);
+      throw new ApplicationError("Something went wrong", 503);
+    }
+  }
+  async averageProductPricePerCategory() {
+    try {
+      const db = getDB();
+      return await db
+        .collection(this.collection)
+        .aggregate([
+          {
+            // Stage 1: Get avg price for each category
+            $group: { _id: "$category", 
+                      averagePrice: { $avg: "$price" } 
+                    },
+          },
+        ])
+        .toArray();
     } catch (err) {
       console.log(err);
       throw new ApplicationError("Something went wrong", 503);

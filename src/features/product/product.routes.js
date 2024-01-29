@@ -30,8 +30,13 @@ ProductRouter.post(
 ProductRouter.get("/filter", (req, res, next) => {
   productController.filterProducts(req, res, next);
 });
+ProductRouter.get("/averagePrice", (req, res, next) => {
+  productController.averagePrice(req, res, next);
+});
+
 ProductRouter.get("/:id", (req, res, next) => {
   productController.getOneProduct(req, res, next);
 });
+
 //ProductRouter.get("/filter", productController.filterProducts);
 export default ProductRouter;

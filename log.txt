@@ -136,3 +136,6 @@
 {"level":"info","message":"\nMon Jan 29 2024 17:43:36 GMT+0530 (India Standard Time) \nreq.body = {}\nreq.url = /api/products/filter?maxPrice=8999&categories=[%20%27Category1%27,%20%27Category3%27%20]","service":"request-logging"}
 {"level":"info","message":"\nMon Jan 29 2024 17:50:38 GMT+0530 (India Standard Time) \nreq.body = {}\nreq.url = /api/products/filter?maxPrice=9999&minPrice=9999&categories=[%20%27Category1%27]","service":"request-logging"}
 {"level":"info","message":"\nMon Jan 29 2024 17:53:27 GMT+0530 (India Standard Time) \nreq.body = {}\nreq.url = /api/products/filter?maxPrice=9999&minPrice=9999&categories=[%20%27Category1%27]","service":"request-logging"}
+{"level":"info","message":"\nMon Jan 29 2024 19:59:44 GMT+0530 (India Standard Time) \nreq.body = {}\nreq.url = /api/products/averagePrice","service":"request-logging"}
+{"level":"info","message":"\nMon Jan 29 2024 20:00:16 GMT+0530 (India Standard Time) \nreq.body = {}\nreq.url = /api/products/averagePrice","service":"request-logging"}
+{"level":"info","message":"\nMon Jan 29 2024 20:05:36 GMT+0530 (India Standard Time) \nreq.body = {}\nreq.url = /api/products/averagePrice","service":"request-logging"}
