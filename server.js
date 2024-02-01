@@ -13,6 +13,7 @@ import apiDocs from "./swagger.json" assert { type: "json" };
 import loggerMiddleware from "./src/middlewares/logger.middleware.js";
 import { ApplicationError } from "./src/error-handler/applicationError.js";
 import connectToMongoDB from "./src/config/mongodb.js";
+import orderRouter from "./src/features/orders/order.routes.js";
 const server = express();
 const port = process.env.PORT || 3400;
 
@@ -33,19 +34,16 @@ server.use(cors(corsOptions));
 
 server.use("/api-docs", swagger.serve, swagger.setup(apiDocs));
 
-// server.use((req, res, next) => {
-//   console.log(req.url);
-//   console.log("req header", req.headers);
-//   next();
-// });
 //for parsing if data is sent in raw-json format
 server.use(bodyParser.json());
 server.use(loggerMiddleware);
 
 // for parsing if data is sent in form-data format
-// server.use(express.urlencoded({ extended: true }));
+server.use(express.urlencoded({ extended: true }));
 
 server.use("/api/cart", jwtAuth, CartRouter);
+
+server.use("/api/orders", jwtAuth, orderRouter);
 
 server.use("/api/users", UserRouter);
 

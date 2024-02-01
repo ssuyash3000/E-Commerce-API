@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 const url = process.env.DB_URL;
-let client = null;
+
 const createCounter = async (db) => {
   const exisitingCounter = await db
     .collection("counters")
@@ -20,6 +20,7 @@ const createIndexes = async (db) => {
     console.log(err);
   }
 };
+let client = null;
 const connectToMongoDB = () => {
   MongoClient.connect(url)
     .then((clientInstance) => {
@@ -31,6 +32,9 @@ const connectToMongoDB = () => {
     .catch((err) => {
       console.log(err);
     });
+};
+export const getClient = () => {
+  return client;
 };
 
 export const getDB = () => {
